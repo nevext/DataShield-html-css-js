@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataShield — Detector Educativo de Riscos à Privacidade</title>
+  <meta name="description" content="Avalie seus hábitos digitais, simule incidentes e receba recomendações de segurança. Fundamentação: LGPD (Arts. 6º, 46 a 50)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir ao conteúdo</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#inicio" class="brand">
+        <span class="brand-icon" aria-hidden="true">◆</span>
+        <span class="brand-text">DataShield</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-principal">
+        Menu
+      </button>
+      <nav id="nav-principal" class="site-nav" aria-label="Principal">
+        <a href="#inicio">Início</a>
+        <a href="#questionario">Questionário</a>
+        <a href="#painel">Painel</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#orientacoes">Orientações</a>
+        <a href="#cartilha" class="nav-cartilha">Cartilha</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section id="inicio" class="section hero">
+      <div class="container">
+        <p class="eyebrow">PROJETO 02 · Segurança da Informação · LGPD</p>
+        <h1>Detector educativo de riscos à privacidade</h1>
+        <p class="lead">
+          Avalie seus hábitos digitais de forma <strong>anônima</strong>, sem pedir senhas reais.
+          Identifique comportamentos que aumentam o risco de exposição indevida de dados pessoais
+          (Arts. 6º, 46 a 50 da LGPD).
+        </p>
+        <div class="hero-actions">
+          <a href="#questionario" class="btn btn-primary">Começar avaliação</a>
+          <a href="#cartilha" class="btn btn-ghost">Abrir cartilha digital</a>
+        </div>
+        <aside class="team-card" aria-labelledby="equipe-titulo">
+          <h2 id="equipe-titulo">Integrantes</h2>
+          <ul class="team-list">
+            <li>David Neves</li>
+            <li>Samia Albuquerque</li>
+            <li>Jhemerson Conde</li>
+            <li>Heitor Sales</li>
+            <li>Joao Paulo</li>
+            <li>John</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="questionario" class="section" aria-labelledby="q-title">
+      <div class="container">
+        <h2 id="q-title">Questionário de hábitos digitais</h2>
+        <p class="section-intro">
+          Responda com honestidade. Os dados ficam apenas no seu navegador e não são enviados a servidores.
+        </p>
+        <form id="form-questionario" class="questionnaire" novalidate>
+          <div id="perguntas-container"></div>
+          <div class="form-footer">
+            <button type="submit" class="btn btn-primary">Calcular risco</button>
+            <button type="reset" class="btn btn-ghost" id="btn-limpar">Limpar respostas</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="painel" class="section section-alt" aria-labelledby="painel-title">
+      <div class="container">
+        <h2 id="painel-title">Painel de risco</h2>
+        <p class="section-intro">Indicadores visuais com base nas suas respostas mais recentes.</p>
+
+        <div id="painel-vazio" class="empty-state">
+          <p>Complete o questionário para ver gráficos e o nível de risco.</p>
+          <a href="#questionario" class="btn btn-primary">Ir ao questionário</a>
+        </div>
+
+        <div id="painel-conteudo" class="painel-grid hidden" hidden>
+          <div class="score-card">
+            <p class="score-label">Nível de risco</p>
+            <p id="nivel-risco" class="score-value" role="status">—</p>
+            <p id="pontuacao-total" class="score-meta"></p>
+          </div>
+          <div class="chart-card">
+            <canvas id="chart-categorias" aria-label="Pontuação por categoria"></canvas>
+          </div>
+          <div class="chart-card chart-card--wide">
+            <canvas id="chart-radar" aria-label="Perfil de risco"></canvas>
+          </div>
+          <div class="recommendations-card" id="recomendacoes-painel"></div>
+          <div class="report-actions">
+            <button type="button" class="btn btn-accent" id="btn-exportar-pdf">
+              Exportar relatório educativo (PDF)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulador" class="section" aria-labelledby="sim-title">
+      <div class="container">
+        <h2 id="sim-title">Simulador educativo de incidentes</h2>
+        <p class="section-intro">Escolha um cenário e decida o que faria. Não há punição — o objetivo é aprender.</p>
+        <div class="sim-layout">
+          <div class="sim-scenarios" id="sim-cenarios" role="tablist" aria-label="Cenários"></div>
+          <div class="sim-panel" id="sim-panel" role="tabpanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="orientacoes" class="section section-alt" aria-labelledby="orient-title">
+      <div class="container">
+        <h2 id="orient-title">Boas práticas rápidas</h2>
+        <p class="section-intro">
+          Visão geral para o dia a dia. Material detalhado:
+          <a href="#cartilha">Escudo Digital — cartilha</a>.
+        </p>
+        <div class="tips-grid" id="orientacoes-grid"></div>
+      </div>
+    </section>
+
+    <section id="cartilha" class="section section-cartilha" aria-labelledby="cartilha-title">
+      <div class="container cartilha-header">
+        <h2 id="cartilha-title">Escudo Digital: Proteja Seus Dados!</h2>
+        <p class="section-intro">
+          Visualização exclusiva da cartilha. Ameaças, golpes, senhas, vazamentos, links suspeitos e medidas em incidentes
+          estão reunidos apenas nesta seção.
+        </p>
+        <div class="cartilha-toolbar">
+          <a
+            href="scr/doc/folder_informativo_seguranca_digital_triptico.pptx"
+            class="btn btn-ghost"
+            download
+          >
+            Baixar folder original (PPTX)
+          </a>
+        </div>
+      </div>
+      <div class="cartilha-viewer" id="cartilha-viewer" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>DataShield — uso educativo. Não coletamos senhas nem dados pessoais identificáveis.</p>
+      <p class="footer-legal">Fundamentação: Lei Geral de Proteção de Dados (LGPD), Arts. 6º, 46 a 50.</p>
+    </div>
+  </footer>
+</body>
+</html>
